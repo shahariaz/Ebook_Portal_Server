@@ -1,7 +1,6 @@
 import express, { Request, Response, NextFunction } from "express";
-import createHttpError, { HttpError } from "http-errors";
-import { config } from "./config/config";
-import { EApplicationEnv } from "./constant/application";
+import createHttpError from "http-errors";
+import globalErrorHandler from "./middlewares/globalErrorHandler";
 
 const app = express();
 
@@ -13,24 +12,5 @@ app.get("/", (req, res) => {
 
 // Global Error Handler
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-app.use((err: HttpError, _req: Request, res: Response, _next: NextFunction) => {
-  if (config.NODE_ENV === EApplicationEnv.DEVELOPMENT) {
-    console.error(err);
-  }
-  const statusCode = err.statusCode || err.status || 500;
-  res.status(statusCode).json({
-    errors: [
-      {
-        type: err.name,
-        msg: err.message,
-        errorStack:
-          config.NODE_ENV === EApplicationEnv.DEVELOPMENT
-            ? err.stack
-            : undefined,
-        path: "",
-        location: "",
-      },
-    ],
-  });
-});
+app.use(globalErrorHandler);
 export default app;
