@@ -1,5 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { THttpErrorResponse } from "../types/type";
+import { config } from "../config/config";
+import { EApplicationEnv } from "../constant/application";
 
 export default (
   err: Partial<THttpErrorResponse>,
@@ -27,7 +29,10 @@ export default (
     },
     message: parsedMessage || "Internal Server Error",
     data: err.data || null,
-    trace: err.trace || null,
+    trace:
+      config.NODE_ENV === EApplicationEnv.DEVELOPMENT
+        ? null
+        : err.trace || null,
   };
 
   res.status(errorResponse.statusCode).json(errorResponse);
