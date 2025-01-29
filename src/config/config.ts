@@ -7,8 +7,8 @@ dotenvFlow.config({
 });
 
 class Config {
-  public PORT: number;
-  public NODE_ENV: string;
+  readonly PORT: number;
+  readonly NODE_ENV: string;
 
   constructor() {
     this.PORT = parseInt(process.env.PORT!);
