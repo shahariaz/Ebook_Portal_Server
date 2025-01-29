@@ -4,7 +4,9 @@ import globalErrorHandler from "./middlewares/globalErrorHandler";
 import userRouter from "./router/userRouter";
 
 const app = express();
-
+// Middlewares
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.get("/", (req: Request, res: Response) => {
   const error = createHttpError(400, "something went wrong");
   throw error;
