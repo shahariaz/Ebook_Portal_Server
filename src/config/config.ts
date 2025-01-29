@@ -9,12 +9,12 @@ dotenvFlow.config({
 class Config {
   readonly PORT: number;
   readonly NODE_ENV: string;
-  readonly MONGODB_URI: string;
+  readonly MONGO_URI: string;
 
   constructor() {
     this.PORT = parseInt(process.env.PORT!);
     this.NODE_ENV = process.env.NODE_ENV!;
-    this.MONGODB_URI = process.env.MONGODB_URI!;
+    this.MONGO_URI = process.env.MONGO_URI!;
     this.validateConfig();
   }
 
