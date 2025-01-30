@@ -1,7 +1,9 @@
 import { Request, Response } from "express";
+import UserService from "../service/user.service";
 class UserController {
+  constructor(private userService: UserService) {}
   async create(req: Request, res: Response) {
-    res.send("User created");
+    console.log(req.body);
   }
 }
 
