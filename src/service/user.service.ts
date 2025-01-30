@@ -50,7 +50,12 @@ class UserService {
       return user;
     } catch (err) {
       console.error("Error updating user:", err);
-      if (err.name === "ValidationError") {
+      if (
+        err &&
+        typeof err === "object" &&
+        "name" in err &&
+        err.name === "ValidationError"
+      ) {
         const error = createHttpError(400, "Invalid data provided");
         throw error;
       }
