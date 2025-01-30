@@ -1,5 +1,4 @@
 import { z } from "zod";
-
 export const registrationSchema = z.object({
   body: z.object({
     name: z
@@ -16,6 +15,8 @@ export const registrationSchema = z.object({
       .string({ required_error: "Password is required" })
       .min(6, "Password must be at least 6 characters long"),
     role: z.string().optional(),
+    isVerified: z.boolean().optional(),
+    lastLogin: z.number().optional(),
     avatar: z.string().optional(),
   }),
 });
