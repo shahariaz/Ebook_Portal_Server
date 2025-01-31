@@ -1,7 +1,11 @@
 import { z } from "zod";
 export const registrationSchema = z.object({
   body: z.object({
-    name: z
+    firstName: z
+      .string({ required_error: "Email is required" })
+      .min(5, "Name must be at least 5 characters long")
+      .max(50, "Name must be at most 50 characters long"),
+    lastName: z
       .string({ required_error: "Email is required" })
       .min(5, "Name must be at least 5 characters long")
       .max(50, "Name must be at most 50 characters long"),

@@ -5,7 +5,6 @@ import httpError from "../utils/httpError";
 export const validate = (schema: ZodSchema) => {
   return (req: Request, res: Response, next: NextFunction) => {
     try {
-      console.log("req.body", req.body);
       schema.parse({
         body: req.body,
         query: req.query,

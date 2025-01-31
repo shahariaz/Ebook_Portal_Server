@@ -6,10 +6,12 @@ class UserService {
   constructor(private userRepo: Model<IUser>) {}
 
   async findByEmail(email: string): Promise<IUser | null> {
+    console.log("email", email);
     try {
+      console.log("email", email);
       const user = await this.userRepo.findOne({ email });
       if (!user) {
-        throw createHttpError(404, "User not found");
+        return null;
       }
       return user;
     } catch (err) {
