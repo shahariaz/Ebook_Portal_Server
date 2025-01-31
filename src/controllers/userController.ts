@@ -1,24 +1,32 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import UserService from "../service/user.service";
-import httpError from "../utils/httpError";
 
-class UserController {
-  constructor(private userService: UserService) {}
-  async create(req: Request, res: Response, next: NextFunction) {
+export default class UserController {
+  constructor(private readonly userService: UserService) {}
+
+  create = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> => {
     try {
-      const { email } = req.body;
-
-      const isUserExist = await this.userService.findByEmail(email);
-
+      const userData = req.body;
+      const isUserExist = await this.userService.findByEmail(userData.email);
       if (isUserExist) {
-        httpError(next, "User Already Exist", req, 400);
+        res.status(400).json({
+          success: false,
+          message: "User already exists",
+        });
+        return;
       }
-      const user = await this.userService.createUser(req.body);
-      res.status(201).json(user);
-    } catch (error) {
-      httpError(next, error, req);
-    }
-  }
-}
+      const user = await this.userService.createUser(userData);
 
-export default UserController;
+      res.status(201).json({
+        success: true,
+        data: user,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+}
